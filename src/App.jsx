@@ -4,15 +4,29 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+
+  function addTodo() {
+    if (newTodo) {
+      setTodos([...todos, newTodo]);
+      setNewTodo('');
+    }
+  }
+
+  function removeTodo(index) {
+    const updatedTodos = todos.filter((_, i) => i !== index);
+    setTodos(updatedTodos);
+  }
 
   return (
     <>
-       <div>
+      <div>
       <h1>Todo App</h1>
       <input
         type="text"
         value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
         placeholder="Enter a new Todo"
       />
       <button onClick={addTodo}>Add</button>
@@ -22,6 +36,7 @@ function App() {
           <li key={index}>
             {todo}
             <button 
+            onClick={() => removeTodo(index)}
             >Delete</button>
           </li>
         ))}
